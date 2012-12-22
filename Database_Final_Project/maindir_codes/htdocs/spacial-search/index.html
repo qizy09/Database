@@ -1,0 +1,28 @@
+<html>
+    
+    <head>
+        <title>
+            Datababase Projroject~~~
+        </title>
+        <link href="search.css" rel="stylesheet" type="text/css">
+        </link>
+        <script src="search.js" language="JavaScript" type="text/javascript">
+        </script>
+        <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false">
+        </script>
+    </head>
+    
+    <body onload="initializeMap();" style="background-image:url(http://www.sogou.com/logo/endday/images/sky.jpg)">
+        <div class="MapBody" id="map_canvas">
+        </div>
+        <div class="InputBody" id="input">
+            <input id="querytext" onKeyUp="searchKeywords();" style="width:380px;height:23px; font-size:20px;">
+            <p id="comment" style="text-align:right"></p>
+        </div>
+        <div class="ResultBody" id="result_region">
+            <ul id = "results">
+            </ul>
+        </div>
+    </body>
+
+</html>

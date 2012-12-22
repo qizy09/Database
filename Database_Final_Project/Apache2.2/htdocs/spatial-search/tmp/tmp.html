@@ -1,0 +1,125 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title> show province in China </title>
+    <style type="text/css">
+      body {
+        margin: 0;
+        border: 0;
+        overflow: hidden;
+      }
+      #map_canvas {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+      }
+    </style>
+    <script type="text/javascript" src="http://ditu.google.cn/maps/api/js?sensor=false&language=zh-CN"></script>
+    <script type="text/javascript" src="citydata.json"></script>
+    <script>
+      var map = null;
+      var provinces = ["广西-#C8C1E3", "广东-#FBC5DC", "湖南-#DBEDC7", "贵州-#E7CCAF", "云南-#DBEDC7", "福建-#FEFCBF", "江西-#E7CCAF", "浙江-#C8C1E3", "安徽-#FBC5DC", "湖北-#C8C1E3", "河南-#DBECC8", "江苏-#DBECC8", "四川-#FCFBBB", "海南省-#FCFBBB", "山东-#FCFBBB", "辽宁-#FCFBBB", "新疆-#FCFBBB", "西藏-#E7CCAF", "陕西-#E7CCAF", "河北-#E7CCAF", "黑龙江-#E7CCAF", "宁夏-#FBC5DC", "内蒙古自治区-#DBEDC7", "青海-#DBEDC7", "甘肃-#C8C1E3", "山西-#FBC5DC", "吉林省-#C8C1E3", "北京-#FBC5DC", "天津-#C8C1E3", "三河市-#E7CCAF", "上海-#FCFBBB", "重庆市-#FBC5DC", "香港-#C8C1E3", "台湾-#C8C1E3"];
+
+      var polyOptions = {
+        strokeColor: "#9B868B",
+        fillColor: "#FF8C69",
+        fillOpacity: 0.6,
+        strokeWeight: 1,
+        zIndex: 1
+      };
+  
+        function initialize() {
+          var myOptions = {
+            center: new google.maps.LatLng(32.694866, 105.996094),
+            zoom: 5,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            streetViewControl: false
+          };
+          map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+          // 普通省
+			alert("Hey<br/>!!");
+		  alert(cityData.municipalities.length);
+          for (var i = 0, n = cityData.provinces.length; i < n; i++) {
+			alert(i);
+            showBoundaryEx(cityData.provinces[i].b, getColor(cityData.provinces[i].n));
+            //市
+            // for (var j = 0, m = cityData.provinces[i].cities.length; j < m; j++) {
+            //     showBoundary(cityData.provinces[i].cities[j].b);
+            // }
+          }
+          //直辖市 
+          for (var i = 0, n = cityData.municipalities.length; i < n; i++) {
+            showBoundaryEx(cityData.municipalities[i].b, getColor(cityData.municipalities[i].n));
+          }
+          //港澳台
+          for (var i = 0, n = cityData.other.length; i < n; i++) {
+            showBoundaryEx(cityData.other[i].b, getColor(cityData.other[i].n));
+          }
+        }
+
+        function isFloatNumber(value) {
+          return (!isNaN(value));
+        }
+
+        function getColor(name) {
+          for (var m = provinces.length - 1; m >= 0; m--) {
+            if (provinces[m].indexOf(name) > -1) {
+              var arr = provinces[m].split("-");
+              return arr[1];
+            }
+          }
+        }
+
+        function showBoundaryEx(latLngs, color) {
+          var paths = [],
+            latLng = "",
+            list = latLngs.split(";");
+          for (i = list.length - 1; i >= 0; i--) {
+            latLng = list[i].split(",");
+            var lat = latLng[1],
+              lng = latLng[0];
+            if ((isFloatNumber(lat)) && (isFloatNumber(lng))) {
+              paths.push(new google.maps.LatLng(lat, lng));
+            }
+          }
+
+          var polygon = new google.maps.Polygon();
+          polygon.setOptions(polyOptions);
+          polygon.setOptions({
+            fillColor: color
+          });
+          polygon.setPaths(paths);
+          polygon.setMap(map);
+
+          google.maps.event.addListener(polygon, "mousemove",
+
+          function () {
+            polygon.setOptions({
+              fillColor: "#FFFF00"
+            });
+          });
+
+          google.maps.event.addListener(polygon, "mouseout",
+
+          function () {
+            polygon.setOptions({
+              fillColor: color
+            });
+          });
+        }
+
+      google.maps.event.addDomListener(window, "load", initialize);
+    </script>
+  </head>
+  
+  <body>
+    <div id="map_canvas"></div>
+  </body>
+
+</html>
+
+<!--http://www.cnblogs.com/i-gps/archive/2012/07/17/2595733.html-->
+<!--https://developers.google.com/maps/documentation/javascript/reference#Polygon-->
+<!--http://www.cnblogs.com/CopyPaster/archive/2012/12/17/2821715.html-->

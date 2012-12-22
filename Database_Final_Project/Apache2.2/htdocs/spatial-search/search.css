@@ -1,0 +1,36 @@
+.InputBody {
+ 	position: absolute;
+    top: 10%;
+    bottom: 0;
+    left: 3%;
+    right 0;
+    width: 29%;
+    height: 11%;
+    background: #FFFFFF;
+}
+
+.MapBody {
+    position: absolute;
+    top: 1%;
+    bottom: 0;
+    left: 33%;
+    right 0%;
+    width: 65%;
+    height: 100%;
+    background: #FFFFFF;
+}
+
+.ResultBody {
+    position: absolute;
+    top: 22%;
+    bottom: 0;
+    left:3%;
+    right: 0;
+    width: 29%;
+    height: 74%;
+    background: #FFFFFF;
+}
+
+.infowindow .sprite { background-image:url(http://www.sogou.com/logo/endday/images/sky.jpg);}
+ 
+
